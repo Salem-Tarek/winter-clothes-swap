@@ -1,140 +1,491 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>طلعة الشتوي</title>
-<style>
-:root{--page:#faf9f5;--surface-1:#f1efe8;--surface-2:#ffffff;--text-primary:#2c2c2a;--text-secondary:#5f5e5a;--border:rgba(0,0,0,.12);--border-strong:rgba(0,0,0,.3);--bg-warning:#faeeda;--text-warning:#633806;--bg-accent:#e6f1fb;--text-accent:#0c447c;--border-accent:#378add;--bg-success:#eaf3de;--text-success:#27500a;--fill-success:#639922;--radius:8px}
-@media (prefers-color-scheme:dark){:root{--page:#1f1e1d;--surface-1:#2b2a28;--surface-2:#353431;--text-primary:#f1efe8;--text-secondary:#b4b2a9;--border:rgba(255,255,255,.14);--border-strong:rgba(255,255,255,.3);--bg-warning:#412402;--text-warning:#fac775;--bg-accent:#042c53;--text-accent:#b5d4f4;--border-accent:#378add;--bg-success:#173404;--text-success:#c0dd97;--fill-success:#97c459}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--page);color:var(--text-primary);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,"Noto Sans Arabic",sans-serif;line-height:1.7;font-size:16px}
-.wrap{max-width:680px;margin:0 auto;padding:16px}
-button{font:inherit;font-size:14px;padding:8px 14px;background:transparent;color:inherit;border:0.5px solid var(--border-strong);border-radius:var(--radius);cursor:pointer}
-button:active{transform:scale(.98)}
-.loc.sel{border-color:var(--border-accent);background:var(--bg-accent);color:var(--text-accent)}
-.st{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:0.5px solid var(--border);cursor:pointer}
-.st input{margin-top:4px;width:18px;height:18px;flex-shrink:0;accent-color:var(--fill-success)}
-.st .t{font-size:15px;font-weight:500;margin:0}
-.st .n{font-size:13px;color:var(--text-secondary);margin:2px 0 0}
-.st .r{font-size:13px;color:var(--text-success);margin:6px 0 0;display:none}
-.st.done .t{text-decoration:line-through;color:var(--text-secondary)}
-.st.done .r{display:block}
-.st.off{display:none}
-.pts{font-size:12px;background:var(--bg-accent);color:var(--text-accent);padding:2px 8px;border-radius:var(--radius);white-space:nowrap}
-.card{border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
-.stat{background:var(--surface-2);border-radius:var(--radius);padding:10px 12px}
-.stat p{margin:0}
-</style>
-</head>
-<body>
-<div class="wrap">
-
-  <div class="card" style="background:var(--surface-1);line-height:1.9;font-size:15px">
-    <p style="margin:0 0 6px">الموضوع كله بدأ لما الجو سقّع، بس ما كانش في دماغنا لحد ما <span style="font-weight:500">العدس ظهر في الشقة</span>.</p>
-    <p style="margin:0 0 6px">هنا كان لازم نقف ونفوق ونطلّع الشتوي 😂😂</p>
-    <p style="margin:0;font-weight:500">يلا بينا يا <span class="nm"></span>، عندنا طلعة 💪😂</p>
-  </div>
-
-  <div class="card" style="background:var(--bg-warning)">
-    <p style="margin:0 0 4px;font-size:13px;color:var(--text-warning)">نصيحة من أخ</p>
-    <p style="margin:0;font-size:15px;line-height:1.8">لو جالك برد في آخر الشتا، ست الكل مش بعيد هتقولك يا <span class="nm"></span>: ده علشان اتأخرت إنك تطلّع الشتوي من أول الشتا 😂😂😂</p>
-  </div>
-
-  <div style="background:var(--surface-1);border-radius:var(--radius);padding:1rem;margin-bottom:1rem">
-    <p style="margin:0 0 8px;font-size:14px;font-weight:500">الأول: الشتوي مستخبي فين يا <span class="nm"></span>؟ 😂</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="loc" onclick="setLoc('w',this)">في الدولاب</button>
-      <button class="loc" onclick="setLoc('b',this)">تحت السرير</button>
-      <button class="loc" onclick="setLoc('both',this)">في الاتنين</button>
-      <button class="loc" onclick="setLoc('idk',this)">مش فاكر أصلا</button>
-    </div>
-    <p id="locout" style="margin:10px 0 0;font-size:14px;color:var(--text-secondary);display:none"></p>
-  </div>
-
-  <div id="work" style="display:none">
-    <div style="margin-bottom:6px">
-      <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary);margin-bottom:6px"><span id="msg"></span><span id="score"></span></div>
-      <div style="height:8px;background:var(--surface-1);border-radius:var(--radius);overflow:hidden"><div id="bar" style="height:100%;width:0;background:var(--fill-success);transition:width .3s"></div></div>
-    </div>
-
-    <div id="list">
-      <label class="st" data-p="10" data-loc="all"><input type="checkbox"><div style="flex:1"><p class="t">قول بسم الله وقوم من مكانك 💪</p><p class="n">ريحة العدس طالعة وإنت لسه قاعد؟ 😂 دي أصعب خطوة، وبعدها الطريق سهل.</p><p class="r">قمت يا <span class="nm"></span>! حتى السرير استغرب 😂</p></div><span class="pts">10 نقط</span></label>
-
-      <label class="st" data-p="20" data-loc="w"><input type="checkbox"><div style="flex:1"><p class="t">طلّع الشتوي من الدولاب</p><p class="n">الدولاب لو لقيته فتح بصوت أفلام الرعب، ما تخافش، دي ريحة النفتالين مش شبح 😂</p><p class="r">لقيت الجاكيت اللي كنت فاكره ضاع؟ كان مستخبي بس، زيك كده 😂</p></div><span class="pts">20 نقطة</span></label>
-
-      <label class="st" data-p="20" data-loc="b"><input type="checkbox"><div style="flex:1"><p class="t">اسحب الشنطة من تحت السرير</p><p class="n">هتلاقي شراب وحيد وكورة ومفتاح ضايع من 2021. ما تتحمسش كتير 😂</p><p class="r">الشراب لسه عايش. سيبه، ده ناجي من زمان 😂</p></div><span class="pts">20 نقطة</span></label>
-
-      <label class="st" data-p="20" data-loc="all"><input type="checkbox"><div style="flex:1"><p class="t">انشر الهدوم شوية لو وقت سيادتك يسمح 😂😂</p><p class="n">عشان ريحة النفتالين تروح وتفضل ريحة العدس هي الوحيدة. الجيران لو بصوا سيبهم 😂</p><p class="r">الهدوم اتهوّت وإنت دخلت الشتا بكرامتك 😂💪</p></div><span class="pts">20 نقطة</span></label>
-
-      <label class="st" data-p="30" data-loc="all"><input type="checkbox"><div style="flex:1"><p class="t">فتش جيوب كل جاكيت</p><p class="n">ممكن تلاقي فلوس، وممكن تلاقي ورقة كشري من الشتا اللي فات 😂</p><p class="r">أي فلوس تلاقيها ما حدش يعرف، دي أرباح الجهد 😂💰</p></div><span class="pts">30 نقطة</span></label>
-
-      <label class="st" data-p="30" data-loc="all"><input type="checkbox"><div style="flex:1"><p class="t">خزّن الصيفي مكان الشتوي</p><p class="n">الشنطة تتقفل وكام حبة نفتالين جواها. وما تفتحهاش قبل أبريل 😂</p><p class="r">كل حاجة في مكانها، وبقيت أنضف واحد في العمارة 😂</p></div><span class="pts">30 نقطة</span></label>
-
-      <label class="st" data-p="10" data-loc="all" style="border-bottom:0.5px solid var(--border)"><input type="checkbox"><div style="flex:1"><p class="t">بونص: طبق عدس بعيش محمّص وليمون 🍋</p><p class="n">وافتكر: اللي مبياكلش عدس، كل ما يعطس مش هياخد غير كلمتين بس 😂😂</p><p class="r">إنت تستحقها بالإنجاز اللي إنت عملته ده يا <span class="nm"></span> 👏😂</p></div><span class="pts">10 نقط</span></label>
-    </div>
-
-    <div id="final" class="card" style="display:none;margin-top:1rem;background:var(--bg-success)">
-      <p style="margin:0 0 10px;font-size:15px;font-weight:500;color:var(--text-success)">الشتا بقى رسمي يا <span class="nm"></span>، والعدس بقى حلال عليك 😂💪</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px">
-        <div class="stat"><p style="font-size:12px;color:var(--text-secondary)">مستوى الفوضى</p><p style="font-size:20px;font-weight:500">8 / 10</p></div>
-        <div class="stat"><p style="font-size:12px;color:var(--text-secondary)">عصرات الليمون</p><p style="font-size:20px;font-weight:500">3</p></div>
-        <div class="stat"><p style="font-size:12px;color:var(--text-secondary)">احتمال البرد</p><p id="cold" style="font-size:20px;font-weight:500">5%</p></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>طلعة الشتوي</title>
+    <style>
+      :root {
+        --page: #faf9f5;
+        --surface-1: #f1efe8;
+        --surface-2: #ffffff;
+        --text-primary: #2c2c2a;
+        --text-secondary: #5f5e5a;
+        --border: rgba(0, 0, 0, 0.12);
+        --border-strong: rgba(0, 0, 0, 0.3);
+        --bg-warning: #faeeda;
+        --text-warning: #633806;
+        --bg-accent: #e6f1fb;
+        --text-accent: #0c447c;
+        --border-accent: #378add;
+        --bg-success: #eaf3de;
+        --text-success: #27500a;
+        --fill-success: #639922;
+        --radius: 8px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --page: #1f1e1d;
+          --surface-1: #2b2a28;
+          --surface-2: #353431;
+          --text-primary: #f1efe8;
+          --text-secondary: #b4b2a9;
+          --border: rgba(255, 255, 255, 0.14);
+          --border-strong: rgba(255, 255, 255, 0.3);
+          --bg-warning: #412402;
+          --text-warning: #fac775;
+          --bg-accent: #042c53;
+          --text-accent: #b5d4f4;
+          --border-accent: #378add;
+          --bg-success: #173404;
+          --text-success: #c0dd97;
+          --fill-success: #97c459;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--page);
+        color: var(--text-primary);
+        font-family:
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Tahoma,
+          "Noto Sans Arabic",
+          sans-serif;
+        line-height: 1.7;
+        font-size: 16px;
+      }
+      .wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+      button {
+        font: inherit;
+        font-size: 14px;
+        padding: 8px 14px;
+        background: transparent;
+        color: inherit;
+        border: 0.5px solid var(--border-strong);
+        border-radius: var(--radius);
+        cursor: pointer;
+      }
+      button:active {
+        transform: scale(0.98);
+      }
+      .loc.sel {
+        border-color: var(--border-accent);
+        background: var(--bg-accent);
+        color: var(--text-accent);
+      }
+      .st {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        padding: 12px 0;
+        border-top: 0.5px solid var(--border);
+        cursor: pointer;
+      }
+      .st input {
+        margin-top: 4px;
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        accent-color: var(--fill-success);
+      }
+      .st .t {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0;
+      }
+      .st .n {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin: 2px 0 0;
+      }
+      .st .r {
+        font-size: 13px;
+        color: var(--text-success);
+        margin: 6px 0 0;
+        display: none;
+      }
+      .st.done .t {
+        text-decoration: line-through;
+        color: var(--text-secondary);
+      }
+      .st.done .r {
+        display: block;
+      }
+      .st.off {
+        display: none;
+      }
+      .pts {
+        font-size: 12px;
+        background: var(--bg-accent);
+        color: var(--text-accent);
+        padding: 2px 8px;
+        border-radius: var(--radius);
+        white-space: nowrap;
+      }
+      .card {
+        border-radius: 12px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 1rem;
+      }
+      .stat {
+        background: var(--surface-2);
+        border-radius: var(--radius);
+        padding: 10px 12px;
+      }
+      .stat p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div
+        class="card"
+        style="background: var(--surface-1); line-height: 1.9; font-size: 15px"
+      >
+        <p style="margin: 0 0 6px">
+          الموضوع كله بدأ لما الجو سقّع، بس ما كانش في دماغنا لحد ما
+          <span style="font-weight: 500">العدس ظهر في الشقة</span>.
+        </p>
+        <p style="margin: 0 0 6px">هنا كان لازم نقف ونفوق ونطلّع الشتوي 😂😂</p>
+        <p style="margin: 0; font-weight: 500">
+          يلا بينا يا <span class="nm"></span>، عندنا طلعة 💪😂
+        </p>
       </div>
-      <p style="margin:0 0 8px;font-size:14px">آخر سؤال: لقيت فلوس في الجيوب؟ 😂</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <button onclick="money(1)">آه، 20 جنيه</button>
-        <button onclick="money(0)">لأ</button>
+
+      <div class="card" style="background: var(--bg-warning)">
+        <p style="margin: 0 0 4px; font-size: 13px; color: var(--text-warning)">
+          نصيحة من أخ
+        </p>
+        <p style="margin: 0; font-size: 15px; line-height: 1.8">
+          لو جالك برد في آخر الشتا، ست الكل مش بعيد هتقولك يا
+          <span class="nm"></span>: ده علشان اتأخرت إنك تطلّع الشتوي من أول
+          الشتا 😂😂😂
+        </p>
       </div>
-      <p id="mout" style="margin:10px 0 0;font-size:14px;color:var(--text-success);display:none"></p>
+
+      <div
+        style="
+          background: var(--surface-1);
+          border-radius: var(--radius);
+          padding: 1rem;
+          margin-bottom: 1rem;
+        "
+      >
+        <p style="margin: 0 0 8px; font-size: 14px; font-weight: 500">
+          الأول: الشتوي مستخبي فين يا <span class="nm"></span>؟ 😂
+        </p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap">
+          <button class="loc" onclick="setLoc('w', this)">في الدولاب</button>
+          <button class="loc" onclick="setLoc('b', this)">تحت السرير</button>
+          <button class="loc" onclick="setLoc('both', this)">في الاتنين</button>
+          <button class="loc" onclick="setLoc('idk', this)">
+            مش فاكر أصلا
+          </button>
+        </div>
+        <p
+          id="locout"
+          style="
+            margin: 10px 0 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: none;
+          "
+        ></p>
+      </div>
+
+      <div id="work" style="display: none">
+        <div style="margin-bottom: 6px">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              font-size: 13px;
+              color: var(--text-secondary);
+              margin-bottom: 6px;
+            "
+          >
+            <span id="msg"></span><span id="score"></span>
+          </div>
+          <div
+            style="
+              height: 8px;
+              background: var(--surface-1);
+              border-radius: var(--radius);
+              overflow: hidden;
+            "
+          >
+            <div
+              id="bar"
+              style="
+                height: 100%;
+                width: 0;
+                background: var(--fill-success);
+                transition: width 0.3s;
+              "
+            ></div>
+          </div>
+        </div>
+
+        <div id="list">
+          <label class="st" data-p="10" data-loc="all"
+            ><input type="checkbox" />
+            <div style="flex: 1">
+              <p class="t">قول بسم الله وقوم من مكانك 💪</p>
+              <p class="n">
+                ريحة العدس طالعة وإنت لسه قاعد؟ 😂 دي أصعب خطوة، وبعدها الطريق
+                سهل.
+              </p>
+              <p class="r">قمت يا <span class="nm"></span>! 👏😂</p>
+            </div>
+            <span class="pts">10 نقط</span></label
+          >
+
+          <label class="st" data-p="20" data-loc="w"
+            ><input type="checkbox" />
+            <div style="flex: 1">
+              <p class="t">طلّع الشتوي من الدولاب</p>
+              <p class="n">
+                الدولاب لو لقيته فتح بصوت أفلام الرعب، ما تخافش 😂
+              </p>
+              <p class="r">
+                لقيت الجاكيت اللي كنت فاكره ضاع؟ كان مستخبي بس 😂
+              </p>
+            </div>
+            <span class="pts">20 نقطة</span></label
+          >
+
+          <label class="st" data-p="20" data-loc="b"
+            ><input type="checkbox" />
+            <div style="flex: 1">
+              <p class="t">اسحب الشنطة من تحت السرير</p>
+              <p class="n">
+                هتلاقي شراب وحيد وكورة ومفتاح ضايع من 2021. ما تتحمسش كتير 😂
+              </p>
+              <p class="r">الشراب لسه عايش. سيبه، ده ناجي من زمان 😂</p>
+            </div>
+            <span class="pts">20 نقطة</span></label
+          >
+
+          <label class="st" data-p="20" data-loc="all"
+            ><input type="checkbox" />
+            <div style="flex: 1">
+              <p class="t">انشر الهدوم شوية لو وقت سيادتك يسمح 😂😂</p>
+              <p class="n">
+                عشان ريحة النفتالين تروح وتفضل ريحة العدس هي الوحيدة ف البيت 😂
+              </p>
+              <p class="r">الهدوم اتهوّت وإنت دخلت الشتا مأمن نفسك 😂💪</p>
+            </div>
+            <span class="pts">20 نقطة</span></label
+          >
+
+          <label class="st" data-p="30" data-loc="all"
+            ><input type="checkbox" />
+            <div style="flex: 1">
+              <p class="t">فتش جيوب كل جاكيت</p>
+              <p class="n">
+                ممكن تلاقي فلوس، وممكن تلاقي ورقة حساب كشري من الشتا اللي فات 😂
+              </p>
+              <p class="r">أي فلوس تلاقيها ما حدش يعرف، دي أرباح الجهد 😂💰</p>
+            </div>
+            <span class="pts">30 نقطة</span></label
+          >
+
+          <label class="st" data-p="30" data-loc="all"
+            ><input type="checkbox" />
+            <div style="flex: 1">
+              <p class="t">خزّن الصيفي مكان الشتوي</p>
+              <p class="n">
+                الشنطة تتقفل وكام حبة نفتالين جواها. وما تفتحهاش قبل أبريل 😂
+              </p>
+              <p class="r">كل حاجة ترجع لمكانها 😂</p>
+            </div>
+            <span class="pts">30 نقطة</span></label
+          >
+
+          <label
+            class="st"
+            data-p="10"
+            data-loc="all"
+            style="border-bottom: 0.5px solid var(--border)"
+            ><input type="checkbox" />
+            <div style="flex: 1">
+              <p class="t">بونص: طبق عدس بعيش محمّص وليمون 🍋</p>
+              <p class="n">
+                وافتكر: اللي مبياكلش عدس، كل ما يعطس مش هياخد غير كلمتين بس 😂😂
+              </p>
+              <p class="r">
+                إنت تستحقها بالإنجاز اللي إنت عملته ده👏😂
+              </p>
+            </div>
+            <span class="pts">10 نقط</span></label
+          >
+        </div>
+
+        <div
+          id="final"
+          class="card"
+          style="display: none; margin-top: 1rem; background: var(--bg-success)"
+        >
+          <p
+            style="
+              margin: 0 0 10px;
+              font-size: 15px;
+              font-weight: 500;
+              color: var(--text-success);
+            "
+          >
+            الشتا بقى رسمي يا <span class="nm"></span>، والعدس بقى حلال عليك
+            😂💪
+          </p>
+          <div
+            style="
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+              gap: 10px;
+              margin-bottom: 12px;
+            "
+          >
+            <div class="stat">
+              <p style="font-size: 12px; color: var(--text-secondary)">
+                مستوى الفوضى
+              </p>
+              <p style="font-size: 20px; font-weight: 500">8 / 10</p>
+            </div>
+            <div class="stat">
+              <p style="font-size: 12px; color: var(--text-secondary)">
+                عصرات الليمون
+              </p>
+              <p style="font-size: 20px; font-weight: 500">3</p>
+            </div>
+            <div class="stat">
+              <p style="font-size: 12px; color: var(--text-secondary)">
+                احتمال البرد
+              </p>
+              <p id="cold" style="font-size: 20px; font-weight: 500">5%</p>
+            </div>
+          </div>
+          <p style="margin: 0 0 8px; font-size: 14px">
+            آخر سؤال: لقيت فلوس في الجيوب؟ 😂
+          </p>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap">
+            <button onclick="money(1)">آه، 20 جنيه</button>
+            <button onclick="money(0)">لأ</button>
+          </div>
+          <p
+            id="mout"
+            style="
+              margin: 10px 0 0;
+              font-size: 14px;
+              color: var(--text-success);
+              display: none;
+            "
+          ></p>
+        </div>
+      </div>
+      <footer class="me">
+        <p>اتعمل بحب و بكلود و انا اللى عملت copy/paste 😂  
+          <strong>
+            <a style="color: white; font-weight: bold" href="https://www.linkedin.com/in/dev-salem-tarek" target="_blank" rel="noopener noreferrer">
+              سالم
+            </a>
+        </strong></p>
+      </footer>
     </div>
-  </div>
-</div>
-<script>
-var NAME="NAME_PLACEHOLDER";
-if(!NAME||NAME==="NAME_PLACEHOLDER"){NAME="بطل"}
-document.querySelectorAll('.nm').forEach(function(e){e.textContent=NAME});
-var START='لسه ما بدأتش، ولا يهمك 😂';
-document.getElementById('msg').textContent=START;
-function rows(){return document.querySelectorAll('.st')}
-function setLoc(k,btn){
-  document.querySelectorAll('.loc').forEach(function(b){b.classList.remove('sel')});
-  btn.classList.add('sel');
-  var m={w:'كده نص الشغل جاهز، افتح الدولاب وخلاص 😂',b:'تحت السرير! الغبرة هناك هتسلم عليك، استحمل 😂',both:'يعني طلعتين مش طلعة واحدة 😂💪 خد نفس وابدأ.',idk:'معلش، أحلى سبب تدوّر في الاتنين وتطلع بخبرة 😂'};
-  var o=document.getElementById('locout');o.style.display='block';o.textContent=m[k];
-  document.getElementById('work').style.display='block';
-  rows().forEach(function(r){
-    var l=r.getAttribute('data-loc');
-    var on=(l==='all')||(k==='both')||(k==='idk')||(l===k);
-    r.classList.toggle('off',!on);
-    if(!on){r.querySelector('input').checked=false}
-  });
-  upd();
-}
-function upd(){
-  var s=0,t=0,all=true;
-  rows().forEach(function(r){
-    if(r.classList.contains('off')){return}
-    var c=r.querySelector('input');
-    var p=parseInt(r.getAttribute('data-p'),10);
-    t+=p;
-    r.classList.toggle('done',c.checked);
-    if(c.checked){s+=p}else{all=false}
-  });
-  document.getElementById('score').textContent=s+' / '+t+' نقطة';
-  document.getElementById('bar').style.width=(t?Math.round(s/t*100):0)+'%';
-  var pc=t?s/t:0;
-  var m=pc===0?START:pc<0.4?'بداية حلوة، كمل 💪':pc<0.8?'إنت ماشي كويس جدا 😂':pc<1?'فاضل شوية صغيرين والعدس يحلى 😂':'خلصت! 💪😂';
-  document.getElementById('msg').textContent=m;
-  document.getElementById('final').style.display=all?'block':'none';
-}
-function money(f){
-  var o=document.getElementById('mout');o.style.display='block';
-  o.textContent=f?'مبروك! إوعى حد في البيت يعرف 😂💰':'ولا يهمك، تفتكر حد في البيت سبقك وأخدها ؟ 😂';
-  document.getElementById('cold').textContent=f?'1%':'5%';
-}
-document.querySelectorAll('.st input').forEach(function(i){i.addEventListener('change',upd)});
-upd();
-</script>
-</body>
+    <script>
+      var NAME = "NAME_PLACEHOLDER";
+      if (!NAME || NAME === "NAME_PLACEHOLDER") {
+        NAME = "بطل";
+      }
+      document.querySelectorAll(".nm").forEach(function (e) {
+        e.textContent = NAME;
+      });
+      var START = "لسه ما بدأتش، ولا يهمك 😂";
+      document.getElementById("msg").textContent = START;
+      function rows() {
+        return document.querySelectorAll(".st");
+      }
+      function setLoc(k, btn) {
+        document.querySelectorAll(".loc").forEach(function (b) {
+          b.classList.remove("sel");
+        });
+        btn.classList.add("sel");
+        var m = {
+          w: "كده نص الشغل جاهز، افتح الدولاب وخلاص 😂",
+          b: "تحت السرير! التراب هناك غالبا هيقابلك، استحمل 😂",
+          both: "يعني طلعتين مش طلعة واحدة 😂💪 خد نفس وابدأ.",
+          idk: "معلش، أحلى سبب تدوّر في الاتنين وتطلع بخبرة 😂",
+        };
+        var o = document.getElementById("locout");
+        o.style.display = "block";
+        o.textContent = m[k];
+        document.getElementById("work").style.display = "block";
+        rows().forEach(function (r) {
+          var l = r.getAttribute("data-loc");
+          var on = l === "all" || k === "both" || k === "idk" || l === k;
+          r.classList.toggle("off", !on);
+          if (!on) {
+            r.querySelector("input").checked = false;
+          }
+        });
+        upd();
+      }
+      function upd() {
+        var s = 0,
+          t = 0,
+          all = true;
+        rows().forEach(function (r) {
+          if (r.classList.contains("off")) {
+            return;
+          }
+          var c = r.querySelector("input");
+          var p = parseInt(r.getAttribute("data-p"), 10);
+          t += p;
+          r.classList.toggle("done", c.checked);
+          if (c.checked) {
+            s += p;
+          } else {
+            all = false;
+          }
+        });
+        document.getElementById("score").textContent = s + " / " + t + " نقطة";
+        document.getElementById("bar").style.width =
+          (t ? Math.round((s / t) * 100) : 0) + "%";
+        var pc = t ? s / t : 0;
+        var m =
+          pc === 0
+            ? START
+            : pc < 0.4
+              ? "بداية حلوة، كمل 💪"
+              : pc < 0.8
+                ? "إنت ماشي كويس جدا 😂"
+                : pc < 1
+                  ? "فاضل شوية صغيرين والعدس يحلى 😂"
+                  : "خلصت! 💪😂";
+        document.getElementById("msg").textContent = m;
+        document.getElementById("final").style.display = all ? "block" : "none";
+      }
+      function money(f) {
+        var o = document.getElementById("mout");
+        o.style.display = "block";
+        o.textContent = f
+          ? "مبروك! إوعى حد في البيت يعرف 😂💰"
+          : "ولا يهمك، تفتكر حد في البيت سبقك وأخدها ؟ 😂";
+        document.getElementById("cold").textContent = f ? "1%" : "5%";
+      }
+      document.querySelectorAll(".st input").forEach(function (i) {
+        i.addEventListener("change", upd);
+      });
+      upd();
+    </script>
+  </body>
 </html>
